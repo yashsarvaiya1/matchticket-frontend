@@ -7,13 +7,20 @@ import { useAuthStore } from '@/stores/authStore'
 import BottomNav from './BottomNav'
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
-  const router = useRouter()
-  const access = useAuthStore((s) => s.access)
+  const router    = useRouter()
+  const access    = useAuthStore((s) => s.access)
+  const hydrated  = useAuthStore((s) => s._hydrated)
 
   useEffect(() => {
-    if (!access) router.replace('/login')
-  }, [access, router])
+    if (hydrated && !access) {
+      router.replace('/login')
+    }
+  }, [hydrated, access, router])
 
+  // Wait for hydration — show nothing to avoid flash
+  if (!hydrated) return null
+
+  // Not logged in — let useEffect handle redirect
   if (!access) return null
 
   return (

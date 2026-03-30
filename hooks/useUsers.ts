@@ -13,9 +13,10 @@ export function useUsers(page = 1) {
 
 export function useUser(id: number) {
   return useQuery({
-    queryKey: ['user', id],
-    queryFn:  () => userService.get(id),
-    select:   (res) => res.data,
+    queryKey:  ['user', id],
+    queryFn:   () => userService.get(id),
+    enabled:   !!id && !isNaN(id),   // ← add this line
+    select:    (res) => res.data,
   })
 }
 

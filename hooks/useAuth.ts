@@ -31,7 +31,8 @@ export function useLogin() {
       authService.login(mobile_number, password),
     onSuccess: (res) => {
       setAuth(res.data)
-      router.push('/matches')
+      // Small delay to ensure store is persisted before redirect
+      setTimeout(() => router.push('/matches'), 50)
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.detail || 'Incorrect password.')
@@ -48,7 +49,7 @@ export function useSetPassword() {
       authService.setPassword(data.mobile_number, data.password, data.confirm_password),
     onSuccess: (res) => {
       setAuth(res.data)
-      router.push('/matches')
+      setTimeout(() => router.push('/matches'), 50)
     },
     onError: (err: any) => {
       toast.error(err.response?.data?.detail || 'Failed to set password.')
