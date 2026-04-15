@@ -25,7 +25,7 @@ export function useCreateUser() {
   return useMutation({
     mutationFn: userService.create,
     onSuccess:  () => { qc.invalidateQueries({ queryKey: ['users'] }); toast.success('User created.') },
-    onError:    () => toast.error('Failed to create user.'),
+    onError: (err: any) => toast.error(err.response?.data ? JSON.stringify(err.response.data) : 'Failed to create user.'),
   })
 }
 

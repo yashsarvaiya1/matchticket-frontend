@@ -97,7 +97,8 @@ export default function UsersPage() {
             {isSuperuser && (
               <div className="flex items-center justify-between">
                 <Label>Make Admin</Label>
-                <Switch checked={isAdmin} onCheckedChange={setIsAdmin} />
+                <span className="text-xs">{String(isAdmin)}</span>
+                <Switch id="is-admin" checked={isAdmin} onCheckedChange={(checked) => setIsAdmin(checked)} />
               </div>
             )}
             <Button type="submit" className="w-full" disabled={!mobile || createMutation.isPending}>

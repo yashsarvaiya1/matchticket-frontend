@@ -75,7 +75,8 @@ export default function UserDetailPage({ userId }: { userId: number }) {
   if (isLoading) return <div className="p-4 space-y-4"><Skeleton className="h-32 rounded-xl" /><Skeleton className="h-48 rounded-xl" /></div>
   if (!user) return <div className="p-8 text-center text-muted-foreground text-sm">User not found.</div>
 
-  const canDeactivate = !user.is_superuser && (isSuperuser || !user.is_staff)
+  const canDeactivate  = !user.is_superuser && (isSuperuser || !user.is_staff)
+  const canClearPass   = isSuperuser || !user.is_staff
 
   return (
     <div>
@@ -115,9 +116,11 @@ export default function UserDetailPage({ userId }: { userId: number }) {
 
         {/* Admin actions */}
         <div className="space-y-2">
-          <Button variant="outline" className="w-full justify-start" onClick={() => setConfirm('clear-password')}>
-            <KeyRound size={14} className="mr-2" /> Clear Password
-          </Button>
+          {canClearPass && (
+            <Button variant="outline" className="w-full justify-start" onClick={() => setConfirm('clear-password')}>
+              <KeyRound size={14} className="mr-2" /> Clear Password
+            </Button>
+          )}
           {user.is_active && canDeactivate && (
             <Button variant="outline" className="w-full justify-start text-destructive hover:text-destructive" onClick={() => setConfirm('deactivate')}>
               <Trash2 size={14} className="mr-2" /> Deactivate User
